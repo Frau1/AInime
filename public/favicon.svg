@@ -1,0 +1,15 @@
+<svg width="220" height="220" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+  <rect width="200" height="200" rx="40" fill="#0F172A"/>
+
+  <!-- A -->
+  <path d="M60 150 L90 50 L120 150" stroke="#6C63FF" stroke-width="10" fill="none" stroke-linecap="round"/>
+  <line x1="75" y1="110" x2="105" y2="110" stroke="#6C63FF" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- I -->
+  <line x1="135" y1="60" x2="135" y2="150" stroke="#A5B4FC" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- small anime sparkle -->
+  <circle cx="155" cy="75" r="4" fill="#6C63FF"/>
+
+</svg>
