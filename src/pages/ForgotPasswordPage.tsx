@@ -9,33 +9,30 @@ const ForgotPasswordPage = () => {
   const [error, setError] = useState('');
 
   const handleSubmit = async () => {
-    if (!email.trim()) return;
+  if (!email.trim()) return;
 
-    try {
-      setLoading(true);
-      setError('');
+  try {
+    setLoading(true);
 
-      const { error } = await supabase.auth.resetPasswordForEmail(
-        email,
-        {
-          redirectTo: `${window.location.origin}/reset-password`,
-        }
-      );
+    const { error } =
+  await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo:
+      'https://ainime.vercel.app/reset-password'
+      });
 
-      if (error) {
-        setError(error.message);
-        return;
-      }
-
-      setSubmitted(true);
-
-    } catch (err) {
-      console.error(err);
-      setError('Something went wrong.');
-    } finally {
-      setLoading(false);
+    if (error) {
+      alert(error.message);
+      return;
     }
-  };
+
+    setSubmitted(true);
+
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div
@@ -156,33 +153,36 @@ const ForgotPasswordPage = () => {
 
             {/* Submit Button */}
             <button
-              className="neon-btn-solid"
-              onClick={handleSubmit}
-              style={{
-                width: '100%',
-                padding: '14px 0',
-                borderRadius: 4,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 10,
-              }}
-            >
-              {loading && (
-                <div
-                  style={{
-                    width: 18,
-                    height: 18,
-                    border: '2px solid #ffffff44',
-                    borderTop: '2px solid white',
-                    borderRadius: '50%',
-                    animation: 'spin 0.8s linear infinite',
-                  }}
-                />
-              )}
+  className="neon-btn-solid"
+  onClick={handleSubmit}
+  disabled={loading}
+  style={{
+    width: '100%',
+    padding: '14px 0',
+    borderRadius: 4,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    opacity: loading ? 0.6 : 1,
+    cursor: loading ? 'not-allowed' : 'pointer',
+  }}
+>
+  {loading && (
+    <div
+      style={{
+        width: 18,
+        height: 18,
+        border: '2px solid #ffffff44',
+        borderTop: '2px solid white',
+        borderRadius: '50%',
+        animation: 'spin 0.8s linear infinite',
+      }}
+    />
+  )}
 
-              {loading ? 'Sending...' : 'Send Reset Link'}
-            </button>
+  {loading ? 'Sending...' : 'Send Reset Link'}
+</button>
           </>
         ) : (
           <div
