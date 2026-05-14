@@ -1,20 +1,40 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!email.trim()) return;
 
-    setLoading(true);
+    try {
+      setLoading(true);
+      setError('');
 
-    setTimeout(() => {
-      setLoading(false);
+      const { error } = await supabase.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: `${window.location.origin}/reset-password`,
+        }
+      );
+
+      if (error) {
+        setError(error.message);
+        return;
+      }
+
       setSubmitted(true);
-    }, 1500);
+
+    } catch (err) {
+      console.error(err);
+      setError('Something went wrong.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -120,6 +140,19 @@ const ForgotPasswordPage = () => {
                 }
               />
             </div>
+
+            {/* Error */}
+            {error && (
+              <p
+                style={{
+                  color: '#ff4d6d',
+                  marginBottom: 16,
+                  fontSize: 14,
+                }}
+              >
+                {error}
+              </p>
+            )}
 
             {/* Submit Button */}
             <button
